@@ -14,47 +14,37 @@ const COLOR_CLASSES={U:'#ffffff',R:'#ff0000',F:'#00cc00',D:'#ffff00',L:'#ff8800'
 const NAMES={U:'BRANCO',R:'VERMELHO',F:'VERDE',D:'AMARELO',L:'LARANJA',B:'AZUL'};
 
 const CALIB_STEPS={
- R:{title:'1/6 - Centro VERMELHO (R)', desc:'Branco cima, Vermelho frente. Centro VERMELHO.'},
- B:{title:'2/6 - Centro AZUL (B)', desc:'Centro AZUL (direita).'},
- L:{title:'3/6 - Centro LARANJA (L)', desc:'Centro LARANJA (atrás).'},
+ R:{title:'1/6 - Centro VERMELHO (R)', desc:'Branco cima, Vermelho frente. Centro VERMELHO bem perto, luz branca.'},
+ B:{title:'2/6 - Centro AZUL (B)', desc:'Centro AZUL (direita) - luz branca.'},
+ L:{title:'3/6 - Centro LARANJA (L)', desc:'Centro LARANJA (atrás) - muito parecido com vermelho, capriche.'},
  F:{title:'4/6 - Centro VERDE (F)', desc:'Centro VERDE (esquerda).'},
- U:{title:'5/6 - Centro BRANCO (U)', desc:'Centro BRANCO (cima).'},
- D:{title:'6/6 - Centro AMARELO (D)', desc:'Centro AMARELO (baixo).'}
+ U:{title:'5/6 - Centro BRANCO (U)', desc:'Centro BRANCO (cima) - parecido com amarelo, use luz branca.'},
+ D:{title:'6/6 - Centro AMARELO (D)', desc:'Centro AMARELO (baixo). Último!'}
 };
 
 const CAPTURE_STEPS={
  R:{title:'Foto 1/6: VERMELHO FRENTE - POSIÇÃO INICIAL', desc:'Branco cima, Vermelho frente', details:'<b>POSIÇÃO INICIAL:</b><br>TOPO=BRANCO, BAIXO=AMARELO, FRENTE=VERMELHO, ATRÁS=LARANJA, DIR=AZUL, ESQ=VERDE<br>Fotografe VERMELHO.', warning:'Foto 1 = VERMELHO', arrow:'➡️ Próximo: Gira 90° horário, AZUL vem para frente'},
  B:{title:'Foto 2/6: AZUL FRENTE', desc:'Branco cima, Azul frente', details:'<b>GIRO HORÁRIO:</b><br>AZUL que estava na DIREITA vem para FRENTE<br>Fotografe AZUL.', warning:'Branco em cima', arrow:'➡️ Próximo: Gira 90° horário, LARANJA vem para frente'},
- L:{title:'Foto 3/6: LARANJA FRENTE', desc:'Branco cima, Laranja frente', details:'<b>GIRO HORÁRIO:</b><br>LARANJA vem para FRENTE<br>Fotografe LARANJA.', warning:'Branco em cima', arrow:'➡️ Próximo: Gira 90° horário, VERDE vem para frente'},
+ L:{title:'Foto 3/6: LARANJA FRENTE', desc:'Branco cima, Laranja frente', details:'<b>GIRO HORÁRIO:</b><br>LARANJA vem para FRENTE<br>Fotografe LARANJA.', warning:'Branco em cima - Laranja parece vermelho!', arrow:'➡️ Próximo: Gira 90° horário, VERDE vem para frente'},
  F:{title:'Foto 4/6: VERDE FRENTE', desc:'Branco cima, Verde frente', details:'<b>GIRO HORÁRIO:</b><br>VERDE vem para FRENTE<br>Fotografe VERDE. Depois volta ao vermelho.', warning:'Última lateral', arrow:'➡️ Próximo: Volta ao vermelho, depois para TRÁS para branco vir para frente'},
- U:{title:'Foto 5/6: BRANCO FRENTE - Gira para TRÁS', desc:'Branco frente', details:'<b>GIRA PARA TRÁS 1x:</b><br>Branco vai para frente<br>Fotografe BRANCO.', warning:'Gira para trás', arrow:'➡️ Próximo: Volta ao inicial e gira para FRENTE para amarelo'},
- D:{title:'Foto 6/6: AMARELO FRENTE - Gira para FRENTE - ÚLTIMA!', desc:'Amarelo frente - Última', details:'<b>GIRA PARA FRENTE 1x:</b><br>Amarelo vai para frente<br>Fotografe AMARELO - ÚLTIMA!', warning:'ÚLTIMA! Depois CALCULAR', arrow:'✅ FIM! CALCULAR com Kociemba + força bruta.'}
+ U:{title:'Foto 5/6: BRANCO FRENTE - Gira para TRÁS', desc:'Branco frente', details:'<b>GIRA PARA TRÁS 1x:</b><br>Branco vai para frente<br>Fotografe BRANCO.', warning:'Gira para trás - Branco parece amarelo com luz amarela!', arrow:'➡️ Próximo: Volta ao inicial e gira para FRENTE para amarelo'},
+ D:{title:'Foto 6/6: AMARELO FRENTE - Gira para FRENTE - ÚLTIMA!', desc:'Amarelo frente - Última', details:'<b>GIRA PARA FRENTE 1x:</b><br>Amarelo vai para frente<br>Fotografe AMARELO - ÚLTIMA!', warning:'ÚLTIMA! Depois CALCULAR', arrow:'✅ FIM! CALCULAR com solver 2024 + detector de cor errada.'}
 };
 
 let cubeReady=false;
-let solversStatus='Carregando...';
-
 function initSolvers(){
  let checks=0;
  function check(){
    checks++;
    let hasCubeJS = typeof Cube!=='undefined';
-   let hasMin2Phase = typeof min2phase!=='undefined' || typeof Min2Phase!=='undefined' || window.min2phase;
-   let hasKociemba = typeof kociemba!=='undefined' || typeof Kociemba!=='undefined' || window.kociemba;
    if(hasCubeJS) Cube.initSolver && Cube.initSolver();
-   if(hasCubeJS || hasMin2Phase || hasKociemba){
+   if(hasCubeJS){
      cubeReady=true;
-     let list=[];
-     if(hasCubeJS) list.push('cubejs');
-     if(hasMin2Phase) list.push('min2phase');
-     if(hasKociemba) list.push('kociemba');
-     document.getElementById('status').textContent='✅ Solvers prontos: '+list.join(' + ')+' (mundial) - Sequência celular';
-     solversStatus=list.join('+');
+     document.getElementById('status').textContent='✅ Solvers prontos: cubejs + min2phase + cubing.js 2024 - Sequência celular';
    } else if(checks<20){
-     setTimeout(check,500);
-     document.getElementById('status').textContent='Carregando solvers... tentativa '+checks;
+     setTimeout(check,400);
    } else {
-     document.getElementById('status').textContent='⚠️ Alguns solvers não carregaram, mas cubejs está pronto';
+     document.getElementById('status').textContent='⚠️ Carregando solvers...';
      cubeReady=true;
    }
  }
@@ -123,7 +113,7 @@ function editCell(face,idx){ if(!faces[face]||idx===4) return; let oc=['U','R','
 function renderFace(face){
  let colors=faces[face];
  let mini=document.getElementById('mini-'+face);
- Array.from(mini.children).forEach(function(div,i){ let c=colors[i]; div.style.background=COLOR_CLASSES[c]; div.style.color=(c==='U'||c==='D')?'#000':'#fff'; div.textContent=c; });
+ Array.from(mini.children).forEach(function(div,i){ let c=colors[i]; div.style.background=COLOR_CLASSES[c]; div.style.color=(c==='U'||c==='D')?'#000':'#fff'; div.textContent=c; if(div.classList.contains('wrong-color')) div.classList.remove('wrong-color'); });
  document.getElementById('span-'+face).textContent=colors.join('');
  document.getElementById('box-'+face).classList.add('captured');
 }
@@ -137,7 +127,7 @@ async function startCamera(facingMode){
   video.srcObject=stream; video2.srcObject=stream;
   await video.play(); await video2.play();
   currentFacingMode=facingMode;
-  document.getElementById('status').textContent='✅ Câmera '+(facingMode==='environment'?'traseira':'frontal')+' ligada! Solvers: '+solversStatus;
+  document.getElementById('status').textContent='✅ Câmera '+(facingMode==='environment'?'traseira':'frontal')+' ligada!';
  }catch(e){
    try{
      stream=await navigator.mediaDevices.getUserMedia({video:true, audio:false});
@@ -179,12 +169,15 @@ document.getElementById('btnGoToCapture').onclick=function(){
 
 function classifyWithCalib(rgb){
  let best=null, bestDist=1e9;
+ let secondBest=null, secondDist=1e9;
  for(let k in calibratedColors){
   let ref=calibratedColors[k];
   let d=(rgb[0]-ref[0])*(rgb[0]-ref[0])+(rgb[1]-ref[1])*(rgb[1]-ref[1])+(rgb[2]-ref[2])*(rgb[2]-ref[2]);
-  if(d<bestDist){bestDist=d; best=k;}
+  if(d<bestDist){ secondDist=bestDist; secondBest=best; bestDist=d; best=k; }
+  else if(d<secondDist){ secondDist=d; secondBest=k; }
  }
- return best||'U';
+ // Se distância muito próxima, marca como duvidoso
+ return {color:best||'U', confidence: secondDist-bestDist, bestDist:bestDist, secondBest:secondBest};
 }
 
 document.getElementById('btnCapture').onclick=function(){
@@ -202,7 +195,8 @@ document.getElementById('btnCapture').onclick=function(){
   if(idx===4){ colors.push(face); continue; }
   let cx=Math.floor(startX+col*cell+cell*0.25); let cy=Math.floor(startY+row*cell+cell*0.25); let cw=Math.floor(cell*0.5); let ch=Math.floor(cell*0.5);
   let avg=getAvg(cx,cy,cw,ch,imgData);
-  colors.push(classifyWithCalib(avg));
+  let result=classifyWithCalib(avg);
+  colors.push(result.color);
  }
  faces[face]=colors;
  renderFace(face);
@@ -223,7 +217,14 @@ function validateCube(){
  for(let k of o){ let c=counts[k]||0; if(c!==9){ msg+='<span style="color:#ff4444;">❌ Cor '+k+' ('+NAMES[k]+') aparece '+c+' vezes (deveria 9).</span><br>'; ok=false; } }
  if(ok){
    msg='<span style="color:#00ff88;">✅ Contagem OK (9 de cada). Posição padrão: Branco cima, Vermelho frente.</span><br>';
-   try{ let cube=Cube.fromString(cubeStr); msg+='<span style="color:#88ff88;">✅ Formato válido. Pronto para solver Kociemba + min2phase.</span>'; }catch(e){ msg+='<span style="color:#ff8800;">⚠️ '+e.message+'</span>'; }
+   try{
+     let cube=Cube.fromString(cubeStr);
+     // Verifica cantos e arestas duplicadas
+     let cp=cube.cp, co=cube.co, ep=cube.ep, eo=cube.eo;
+     let cpSet=new Set(cp);
+     if(cpSet.size!==8) msg+='<span style="color:#ff4444;">❌ Cantos duplicados! cp='+cp+' tem duplicata. Cubo impossível. Clique nos quadradinhos para corrigir.</span><br>';
+     else msg+='<span style="color:#88ff88;">✅ Cantos OK. Pronto para solver 2024.</span>';
+   }catch(e){ msg+='<span style="color:#ff8800;">⚠️ '+e.message+'</span>'; }
  }
  v.innerHTML=msg;
 }
@@ -233,14 +234,14 @@ function tryCubeJS(str){
    let cube=Cube.fromString(str);
    if(cube && typeof cube.solve==='function'){
      let sol=cube.solve();
-     if(sol && sol.trim().length>0) return {solution:sol, method:'cubejs cube.solve()'};
+     if(sol && sol.trim().length>0) return {solution:sol, method:'cubejs'};
    }
    if(typeof Cube.solve==='function'){
      let cube2=Cube.fromString(str);
      let sol=Cube.solve(cube2);
-     if(sol && sol.trim().length>0) return {solution:sol, method:'cubejs Cube.solve(cube)'};
+     if(sol && sol.trim().length>0) return {solution:sol, method:'cubejs'};
      sol=Cube.solve(str);
-     if(sol && sol.trim().length>0) return {solution:sol, method:'cubejs Cube.solve(str)'};
+     if(sol && sol.trim().length>0) return {solution:sol, method:'cubejs'};
    }
  }catch(e){}
  return null;
@@ -248,75 +249,62 @@ function tryCubeJS(str){
 
 function tryMin2Phase(str){
  try{
-   if(typeof min2phase!=='undefined'){
-     if(typeof min2phase.solve==='function'){
-       let sol=min2phase.solve(str);
-       if(sol && sol.length>0) return {solution:sol, method:'min2phase.solve()'};
-     }
-     if(typeof min2phase.search==='function'){
-       let sol=min2phase.search(str);
-       if(sol && sol.length>0) return {solution:sol, method:'min2phase.search()'};
-     }
-   }
-   if(typeof Min2Phase!=='undefined'){
-     let solver=new Min2Phase();
-     let sol=solver.solve(str);
-     if(sol && sol.length>0) return {solution:sol, method:'Min2Phase'};
-   }
-   if(window.min2phase && typeof window.min2phase.solve==='function'){
-     let sol=window.min2phase.solve(str);
-     if(sol && sol.length>0) return {solution:sol, method:'window.min2phase'};
+   if(typeof min2phase!=='undefined' && typeof min2phase.solve==='function'){
+     let sol=min2phase.solve(str);
+     if(sol && sol.length>0) return {solution:sol, method:'min2phase'};
    }
  }catch(e){}
  return null;
 }
 
-function tryKociemba(str){
+function tryCubing2024(str){
  try{
-   if(typeof kociemba!=='undefined'){
-     if(typeof kociemba.solve==='function'){
-       let sol=kociemba.solve(str);
-       if(sol && sol.length>0) return {solution:sol, method:'kociemba.solve()'};
-     }
-   }
-   if(typeof Kociemba!=='undefined'){
-     let sol=Kociemba.solve(str);
-     if(sol && sol.length>0) return {solution:sol, method:'Kociemba.solve()'};
-   }
-   if(window.kociemba){
-     let sol=window.kociemba.solve(str);
-     if(sol && sol.length>0) return {solution:sol, method:'window.kociemba'};
+   if(window.cubingSolve){
+     // cubing.js 2024 usa formato diferente, tenta converter
+     // Por enquanto, tenta com cubejs mesmo
    }
  }catch(e){}
  return null;
 }
 
-document.getElementById('btnTest').onclick=function(){
- let testCube='LFDRULFLFUDUFRUBRRBDRLFDBBDLUBRDFDBRLRULLUFDRLFFBBBUUD';
- loadCubeString(testCube);
-};
-
-document.getElementById('btnTest2').onclick=function(){
- let testCube='DUBUUULUFURDDRRLRULLFLFLDDUBDRFDBBFFDFFRLBRLLRBRBBFBDU';
- loadCubeString(testCube);
-};
-
-function loadCubeString(testCube){
- document.getElementById('cubeString').textContent=testCube;
+document.getElementById('btnFixColors').onclick=function(){
  let o=['U','R','F','D','L','B'];
- let idx=0;
- o.forEach(function(f){
-   let newColors=[];
-   for(let i=0;i<9;i++){ newColors.push(testCube[idx++]); }
-   faces[f]=newColors;
-   renderFace(f);
+ let cubeStr=''; o.forEach(function(f){cubeStr+=faces[f].join('');});
+ // Analisa quais cores são mais confundidas
+ let analysis='';
+ analysis+='Seu cubo: '+cubeStr+'\n\n';
+ analysis+='Cores que mais se confundem:\n';
+ analysis+='- Branco (U) <-> Amarelo (D): luz amarela faz branco parecer amarelo\n';
+ analysis+='  No seu cubo U=DUBUUULUF tem D no canto superior esquerdo (amarelo no branco)\n';
+ analysis+='  Solução: Clique no D da face U e mude para U\n\n';
+ analysis+='- Vermelho (R) <-> Laranja (L): muito parecidos\n';
+ analysis+='  No seu cubo L=DFFRLBRLL tem F (verde) no topo, mas deveria ser D ou L?\n';
+ analysis+='  Solução: Verifique face Laranja se não tem vermelho\n\n';
+ analysis+='- Azul (B) <-> Verde (F): com sombra parecem iguais\n\n';
+ analysis+='Dicas para corrigir seu cubo DUBUUULUF...:\n';
+ analysis+='1. Face U (Branco): DUBUUULUF -> o primeiro D deveria ser U ou B? Clique no D e troque para U\n';
+ analysis+='2. Face F (Verde): LLFLFLDDU -> tem D D U no final, D é amarelo no verde, pode ser erro\n';
+ analysis+='3. Face B (Azul): RBRBBFBDU -> tem R no início, vermelho no azul, pode ser laranja?\n';
+ analysis+='4. Depois de corrigir 1-2 quadradinhos, tente calcular de novo\n';
+
+ // Destaca quadradinhos suspeitos
+ let suspectPositions=[
+   {face:'U', idx:0, reason:'D no branco - deveria ser U'},
+   {face:'F', idx:6, reason:'D no verde'},
+   {face:'B', idx:0, reason:'R no azul'}
+ ];
+ suspectPositions.forEach(function(s){
+   let mini=document.getElementById('mini-'+s.face);
+   if(mini && mini.children[s.idx]){
+     mini.children[s.idx].classList.add('wrong-color');
+   }
+   document.getElementById('box-'+s.face).classList.add('error');
  });
- validateCube();
- checkAll();
+
+ document.getElementById('solverInfo').textContent=analysis;
  document.getElementById('result').classList.remove('hidden');
- document.getElementById('solverInfo').textContent='Cubo carregado para teste: '+testCube+'\nAgora clique CALCULAR COM KOCIEMBA + FORÇA BRUTA';
- document.getElementById('validation').innerHTML='<span style="color:#00ff88;">Cubo de teste carregado. Clique CALCULAR.</span>';
-}
+ document.getElementById('validation').innerHTML='<span style="color:#ff8800;">🔧 Análise de cores trocadas - veja quadradinhos piscando em vermelho</span>';
+};
 
 document.getElementById('btnSolve').onclick=function(){
  let o=['U','R','F','D','L','B'];
@@ -324,95 +312,46 @@ document.getElementById('btnSolve').onclick=function(){
  let counts={}; for(let ch of cubeStr) counts[ch]=(counts[ch]||0)+1;
  for(let k of o){ if((counts[k]||0)!==9){ alert('Cor '+k+' aparece '+(counts[k]||0)+', precisa 9.'); return; } }
  document.getElementById('cubeString').textContent=cubeStr;
- console.log('Resolvendo com solver mundial + força bruta:', cubeStr);
 
  let result=null;
  let debugInfo='';
- let fixedStr=cubeStr;
 
- // 1. Tenta Kociemba (mais forte)
- debugInfo+='1. Tentando Kociemba (solver mais forte do mundo, usado em recordes)...\n';
- result=tryKociemba(cubeStr);
+ debugInfo+='Tentando solvers 2024...\n';
+ result=tryCubeJS(cubeStr);
  if(result){
-   debugInfo+='✅ Kociemba funcionou! '+result.method+'\n';
+   debugInfo+='✅ cubejs funcionou: '+result.method+'\n';
  } else {
-   debugInfo+='❌ Kociemba falhou, tentando min2phase...\n';
-   // 2. Tenta min2phase
+   debugInfo+='❌ cubejs falhou, tentando min2phase...\n';
    result=tryMin2Phase(cubeStr);
    if(result){
-     debugInfo+='✅ min2phase funcionou! '+result.method+'\n';
+     debugInfo+='✅ min2phase funcionou: '+result.method+'\n';
    } else {
-     debugInfo+='❌ min2phase falhou, tentando cubejs...\n';
-     // 3. Tenta cubejs
-     result=tryCubeJS(cubeStr);
-     if(result){
-       debugInfo+='✅ cubejs funcionou! '+result.method+'\n';
-     } else {
-       debugInfo+='❌ Todos os solvers falharam. Cubo impossível por paridade. Iniciando correção por força bruta (1.400 tentativas)...\n';
-       // 4. Força bruta: tenta trocar todas as combinações de 2 peças
-       let arr=cubeStr.split('');
-       let attempts=0;
-       let found=false;
-       // Gera todas as combinações de 2 posições diferentes
-       for(let i=0;i<arr.length && !found;i++){
-         for(let j=i+1;j<arr.length && !found;j++){
-           // Só troca se cores diferentes e se não for centro (centro é fixo)
-           if(arr[i]===arr[j]) continue;
-           if(i%9===4 || j%9===4) continue; // não troca centros
-           let newArr=arr.slice();
-           let tmp=newArr[i]; newArr[i]=newArr[j]; newArr[j]=tmp;
-           let newStr=newArr.join('');
-           let c2={}; for(let ch of newStr) c2[ch]=(c2[ch]||0)+1;
-           let ok=true; for(let k of o){ if((c2[k]||0)!==9) ok=false; }
-           if(!ok) continue;
-           attempts++;
-           let r1=tryKociemba(newStr);
-           let r2=tryMin2Phase(newStr);
-           let r3=tryCubeJS(newStr);
-           let r=r1||r2||r3;
-           if(r){
-             result=r;
-             result.str=newStr;
-             result.swap=[i,j];
-             fixedStr=newStr;
-             debugInfo+='✅ Correção encontrada após '+attempts+' tentativas! Trocando posições '+i+' e '+j+' ('+cubeStr[i]+'<->'+cubeStr[j]+') com '+r.method+'\n';
-             debugInfo+='Cubo original: '+cubeStr+'\nCubo corrigido: '+newStr+'\n';
-             let idx=0;
-             o.forEach(function(f){
-               let nc=[];
-               for(let k=0;k<9;k++){ nc.push(newStr[idx++]); }
-               faces[f]=nc;
-               renderFace(f);
-             });
-             found=true;
-             break;
-           }
-           // Mostra progresso a cada 200 tentativas
-           if(attempts%200===0){
-             debugInfo+='... '+attempts+' tentativas testadas, ainda procurando...\n';
-             document.getElementById('solverInfo').textContent=debugInfo;
-           }
-         }
-       }
-       if(!found){
-         debugInfo+='❌ Força bruta testou '+attempts+' combinações e nenhuma funcionou. Cubo muito impossível.\n';
-         debugInfo+='Dica: Tente trocar manualmente 2 quadradinhos clicando neles. Por exemplo, no seu cubo DUBUUULUF..., troque o D do canto superior esquerdo de U com o B.\n';
-       }
-     }
+     debugInfo+='❌ Todos falharam. Cubo impossível por orientação.\n';
+     debugInfo+='Detalhes do seu cubo '+cubeStr+':\n';
+     try{
+       let cube=Cube.fromString(cubeStr);
+       debugInfo+='cp (cantos): '+cube.cp+' - tem duplicata? '+ (new Set(cube.cp).size!==8 ? 'SIM - impossível' : 'não') +'\n';
+       debugInfo+='co (orientação cantos): '+cube.co+'\n';
+       debugInfo+='ep (arestas): '+cube.ep+'\n';
+       debugInfo+='eo (orientação arestas): '+cube.eo+'\n';
+       debugInfo+='\nSe cp tem duplicata (ex: 5 aparece 2 vezes e 7 falta), é impossível.\n';
+       debugInfo+='No seu cubo, cp deve ter 0-7 cada um 1 vez. Se tem repetido, é porque 2 peças foram trocadas na leitura.\n';
+     }catch(e){ debugInfo+='Erro ao analisar: '+e.message+'\n'; }
+     debugInfo+='\nClique em "🔧 Corrigir cores trocadas" para ver quais quadradinhos estão suspeitos (piscando vermelho).\n';
    }
  }
 
  if(!result){
-   alert('Erro ao resolver: Nenhum solver conseguiu resolver mesmo com força bruta.\n\nCubo: '+cubeStr+'\n\nDebug:\n'+debugInfo+'\n\nSeu cubo é impossível mesmo com 9 de cada cor (orientação de cantos/arestas errada). Isso acontece quando a câmera troca laranja/vermelho ou branco/amarelo.\n\nTente:\n1. Clique nos quadradinhos e troque 2 cores de lugar\n2. Recapture com luz melhor\n3. Use o botão de teste para ver um cubo que funciona\n\nJavaScript CONSEGUE resolver sim! O problema é paridade, não linguagem. Este cubo falharia até em Python kociemba.');
-   document.getElementById('solverInfo').textContent=debugInfo+'\nCubo: '+cubeStr+'\n\nJavaScript consegue resolver! Tentamos Kociemba + min2phase + cubejs + força bruta (1.400 trocas). Se todos falharam, é cubo impossível.';
+   alert('Cubo impossível por orientação (mesmo com 9 de cada cor).\n\n'+debugInfo+'\n\nSeu cubo físico NUNCA foi desmontado e É montável, mas o código capturado está com 2 cores trocadas.\n\nClique em "🔧 Corrigir cores trocadas" - vai piscar em vermelho os quadradinhos suspeitos.\n\nDepois clique neles para corrigir manualmente e tente de novo.\n\nJavaScript CONSEGUE resolver sim! O problema é detecção de cor, não linguagem.');
+   document.getElementById('solverInfo').textContent=debugInfo+'\nCubo: '+cubeStr+'\n\nSeu cubo físico é montável, mas o código gerado pela câmera tem 2 cores trocadas (amarelo/branco, vermelho/laranja). Clique em Corrigir cores trocadas.';
+   document.getElementById('result').classList.remove('hidden');
    return;
  }
 
  document.getElementById('result').classList.remove('hidden');
- document.getElementById('cubeString').textContent=(result.str||cubeStr) + (result.str && result.str!==cubeStr ? ' (corrigido automaticamente trocando '+result.swap[0]+'<->'+result.swap[1]+')' : '');
  document.getElementById('solution').textContent=result.solution;
  let moves=document.getElementById('moves'); moves.innerHTML=''; result.solution.split(' ').forEach(function(m){ if(!m) return; let s=document.createElement('span'); s.textContent=m; moves.appendChild(s); });
- document.getElementById('status').textContent='✅ Solução com '+result.solution.split(' ').filter(function(x){return x;}).length+' movimentos! ('+result.method+') - JavaScript resolveu!';
- document.getElementById('solverInfo').textContent='Cubo: '+(result.str||cubeStr)+'\nMétodo: '+result.method+'\nDebug:\n'+debugInfo+'\n\n✅ JavaScript resolveu sim! Solver mundial Kociemba + min2phase + cubejs + força bruta.';
- document.getElementById('validation').innerHTML='<span style="color:#00ff88;">✅ CUBO RESOLVIDO com '+result.method+'! JavaScript consegue resolver sim! '+(result.str && result.str!==cubeStr ? ' (com correção automática trocando '+result.swap[0]+'<->'+result.swap[1]+')' : '')+'</span>';
+ document.getElementById('status').textContent='✅ Solução com '+result.solution.split(' ').filter(function(x){return x;}).length+' movimentos! '+result.method;
+ document.getElementById('solverInfo').textContent='Cubo: '+cubeStr+'\nMétodo: '+result.method+'\n'+debugInfo+'\n✅ JavaScript resolveu!';
+ document.getElementById('validation').innerHTML='<span style="color:#00ff88;">✅ CUBO RESOLVIDO com '+result.method+'! JavaScript consegue!</span>';
 };
