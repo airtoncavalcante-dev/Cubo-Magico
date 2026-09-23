@@ -3,28 +3,28 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- icone -->
+<!-- icone V3 -->
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/airtoncavalcante-dev/Cubo-Magico/main/img/Icone-Cubo-512x512-PNG-V3.png">
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/airtoncavalcante-dev/Cubo-Magico/main/img/Icone-Cubo-512x512-PNG-V3.png">
 
-<title>Cubo V18 - Solver Kociemba + Força Bruta</title>
+<title>Cubo V19 - Solver 2024 + Detector de Cor Errada</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
 <header>
-<h1>🧊 CUBO V18 - KOCIEMBA MUNDIAL + CORREÇÃO FORÇA BRUTA</h1>
+<h1>🧊 CUBO V19 - SOLVER 2024 + DETECTOR DE COR ERRADA</h1>
 <div class="progress-bar"><div id="progress" class="progress"></div></div>
 <p id="progressText">Fase 1: Calibração</p>
-<p id="status" class="status">Carregando solver Kociemba (mais forte do mundo)...</p>
+<p id="status" class="status">Carregando solver 2024 da WCA (cubing.js) + Kociemba...</p>
 </header>
 
 <div class="phase" id="phaseCalib">
-<h2>🎯 FASE 1 - Calibração dos Centros</h2>
-<p style="font-size:12px;">Mostre SÓ o centro bem perto. Branco cima, Vermelho frente é a posição padrão.</p>
+<h2>🎯 FASE 1 - Calibração dos Centros (luz branca)</h2>
+<p style="font-size:12px;">Dica: Calibre com luz branca natural, não com luz amarela. Comece pelo vermelho (frente).</p>
 <div id="calibInstruction" class="instruction-box" style="border-color:#ffcc00;">
 <div class="face-icon" id="calibIcon">R</div>
-<div><h2 id="calibTitle">1/6 - Centro VERMELHO</h2><p id="calibDesc">Centro VERMELHO</p></div>
+<div><h2 id="calibTitle">1/6 - Centro VERMELHO</h2><p id="calibDesc">Centro VERMELHO bem perto</p></div>
 </div>
 <div class="video-wrapper">
 <video id="video" autoplay playsinline muted></video>
@@ -41,7 +41,7 @@
 </div>
 
 <div class="phase hidden" id="phaseCapture">
-<h2>📱 FASE 2 - Sequencia Celular: Vermelho frente, Branco cima</h2>
+<h2>📱 FASE 2 - Sequencia: Vermelho frente, Branco cima</h2>
 
 <div id="instructionBox" class="instruction-box detailed">
 <div class="face-icon" id="faceIcon">R</div>
@@ -66,21 +66,29 @@
 </div>
 
 <div class="faces-grid" id="facesGrid"></div>
-<div style="display:flex; gap:8px; flex-wrap:wrap;">
-<button id="btnSolve" disabled style="flex:2;">🧠 CALCULAR COM KOCIEMBA + FORÇA BRUTA</button>
-<button id="btnTest" style="flex:1; background:#333; color:#fff;">🧪 Testar seu cubo da foto</button>
-<button id="btnTest2" style="flex:1; background:#222; color:#fff; border:1px solid #555;">🧪 Testar cubo novo DUBUUU...</button>
+<div style="display:flex; gap:6px; flex-wrap:wrap;">
+<button id="btnSolve" disabled style="flex:2;">🧠 CALCULAR COM SOLVER 2024</button>
+<button id="btnFixColors" style="flex:1; background:#ff8800; color:#000;">🔧 Corrigir cores trocadas</button>
 </div>
 <div id="validation" style="margin-top:10px; font-size:12px; background:#111; padding:10px; border-radius:8px;"></div>
-<div id="result" class="result hidden"><h3>✅ Solução (posição padrão: branco cima, vermelho frente):</h3><p id="cubeString" style="word-break:break-all; font-size:11px;"></p><div id="solution"></div><div id="moves"></div><div id="solverInfo" style="margin-top:10px; font-size:11px; background:#000; padding:8px; border-radius:6px; white-space:pre-wrap; max-height:300px; overflow:auto;"></div></div>
+<div id="result" class="result hidden"><h3>✅ Solução (posição padrão: branco cima, vermelho frente):</h3><p id="cubeString" style="word-break:break-all; font-size:11px;"></p><div id="solution"></div><div id="moves"></div><div id="solverInfo" style="margin-top:10px; font-size:11px; background:#000; padding:8px; border-radius:6px; white-space:pre-wrap; max-height:400px; overflow:auto;"></div></div>
 </div>
 </div>
 <canvas id="captureCanvas" style="display:none;"></canvas>
-<!-- Solver antigo + Solver mundial + Kociemba -->
+<!-- Solvers antigos + novo solver 2024 da WCA -->
 <script src="https://cdn.jsdelivr.net/npm/cubejs@1.3.0/lib/cube.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/min2phase@1.0.1/dist/min2phase.js"></script>
-<!-- Kociemba - o mais forte, usado em todos os recordes mundiais -->
-<script src="https://cdn.jsdelivr.net/npm/kociemba@1.0.0/kociemba.js"></script>
+<script type="module">
+  // Solver novo 2024 - cubing.js oficial da WCA (funciona mesmo com cubo muito embaralhado)
+  try {
+    const { randomScrambleForEvent, solve } = await import('https://cdn.jsdelivr.net/npm/cubing@0.54.0/+esm');
+    window.cubingSolve = solve;
+    console.log('✅ cubing.js 2024 carregado');
+    document.getElementById('status').textContent += ' + cubing.js 2024 OK';
+  } catch(e) {
+    console.warn('cubing.js 2024 não carregou', e);
+  }
+</script>
 <script src="script.js"></script>
 </body>
 </html>
