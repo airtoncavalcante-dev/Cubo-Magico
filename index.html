@@ -7,24 +7,24 @@
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/airtoncavalcante-dev/Cubo-Magico/main/img/Icone-Cubo-512x512-PNG-V3.png">
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/airtoncavalcante-dev/Cubo-Magico/main/img/Icone-Cubo-512x512-PNG-V3.png">
 
-<title>Cubo V15 - Sequencia Celular - Vermelho Frente</title>
+<title>Cubo V16 - Correção Automática de Paridade</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
 <header>
-<h1>🧊 CUBO V15 - SEQUENCIA CELULAR (VERMELHO FRENTE)</h1>
+<h1>🧊 CUBO V16 - CORREÇÃO AUTOMÁTICA (JavaScript resolve sim!)</h1>
 <div class="progress-bar"><div id="progress" class="progress"></div></div>
-<p id="progressText">Fase 1: Calibração dos Centros</p>
-<p id="status" class="status">Carregando solver... Sua sequencia: Vermelho frente, branco cima</p>
+<p id="progressText">Fase 1: Calibração</p>
+<p id="status" class="status">Solver com correção de paridade - JavaScript consegue resolver sim!</p>
 </header>
 
 <div class="phase" id="phaseCalib">
-<h2>🎯 FASE 1 - Calibração (6 centros - bem perto)</h2>
-<p style="font-size:12px;">Celular na vertical. Mostre SÓ o quadrado do centro bem perto da câmera, sem reflexo.</p>
+<h2>🎯 FASE 1 - Calibração dos Centros</h2>
+<p style="font-size:12px;">Mostre SÓ o centro bem perto. Comece pelo vermelho (frente).</p>
 <div id="calibInstruction" class="instruction-box" style="border-color:#ffcc00;">
 <div class="face-icon" id="calibIcon">R</div>
-<div><h2 id="calibTitle">1/6 - Centro VERMELHO (R)</h2><p id="calibDesc">Mostre o centro VERMELHO bem perto</p></div>
+<div><h2 id="calibTitle">1/6 - Centro VERMELHO</h2><p id="calibDesc">Centro VERMELHO</p></div>
 </div>
 <div class="video-wrapper">
 <video id="video" autoplay playsinline muted></video>
@@ -36,18 +36,18 @@
 <button id="btnCalibCapture" class="primary">🎯 Capturar Centro <span id="calibLabel">R</span></button>
 </div>
 <div class="calib-grid" id="calibGrid"></div>
-<div id="calibResult" class="calib-result">Nenhuma cor calibrada - comece pelo vermelho</div>
-<button id="btnGoToCapture" disabled>✅ 6 Centros OK - Ir para leitura das faces ➡️</button>
+<div id="calibResult" class="calib-result">Nenhuma cor calibrada</div>
+<button id="btnGoToCapture" disabled>✅ 6 Centros OK - Ir para leitura ➡️</button>
 </div>
 
 <div class="phase hidden" id="phaseCapture">
-<h2>📱 FASE 2 - Leitura Celular - Sua Sequencia (Vermelho Frente)</h2>
+<h2>📱 FASE 2 - Sua Sequencia: Vermelho frente, Branco cima</h2>
 
 <div id="instructionBox" class="instruction-box detailed">
 <div class="face-icon" id="faceIcon">R</div>
 <div style="flex:1;">
-<h2 id="stepTitle">Foto 1/6: VERMELHO FRENTE</h2>
-<p id="stepDesc">Posição inicial padrão: Branco cima, Vermelho frente</p>
+<h2 id="stepTitle">Foto 1/6: VERMELHO</h2>
+<p id="stepDesc">Branco cima, Vermelho frente</p>
 <div id="stepDetails" class="step-details"></div>
 <div id="stepWarning" class="step-warning"></div>
 <div id="stepArrow" class="step-arrow"></div>
@@ -66,9 +66,9 @@
 </div>
 
 <div class="faces-grid" id="facesGrid"></div>
-<button id="btnSolve" disabled>🧠 CALCULAR MOVIMENTOS (posição padrão: vermelho frente)</button>
+<button id="btnSolve" disabled>🧠 CALCULAR (com correção automática de paridade)</button>
 <div id="validation" style="margin-top:10px; font-size:12px; background:#111; padding:10px; border-radius:8px;"></div>
-<div id="result" class="result hidden"><h3>✅ Solução (a partir da posição padrão vermelho frente):</h3><p id="cubeString"></p><div id="solution"></div><div id="moves"></div><div id="solverInfo" style="margin-top:10px; font-size:10px; opacity:0.7;"></div></div>
+<div id="result" class="result hidden"><h3>✅ Solução (posição padrão: branco cima, vermelho frente):</h3><p id="cubeString"></p><div id="solution"></div><div id="moves"></div><div id="solverInfo" style="margin-top:10px; font-size:11px; background:#000; padding:8px; border-radius:6px; white-space:pre-wrap;"></div></div>
 </div>
 </div>
 <canvas id="captureCanvas" style="display:none;"></canvas>
