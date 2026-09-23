@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- imagem do icone do site no navegador PC Android e IOS -->
-<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/airtoncavalcante-dev/Cubo-Magico/main/img/Icone-Cubo-512x512-PNG-V3.png">
-<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/airtoncavalcante-dev/Cubo-Magico/main/img/Icone-Cubo-512x512-PNG-V3.png">
+<!-- icone -->
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/airtoncavalcante-dev/Cubo-Magico/main/img/Icone-Cubo-512x512-PNG.png">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/airtoncavalcante-dev/Cubo-Magico/main/img/Icone-Cubo-512x512-PNG.png">
 
-<title>Cubo V16 - Correção Automática de Paridade</title>
+<title>Cubo V17 - Solver Mundial min2phase + cubing.js</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
 <header>
-<h1>🧊 CUBO V16 - CORREÇÃO AUTOMÁTICA (JavaScript resolve sim!)</h1>
+<h1>🧊 CUBO V17 - SOLVER MUNDIAL (min2phase + cubing.js)</h1>
 <div class="progress-bar"><div id="progress" class="progress"></div></div>
 <p id="progressText">Fase 1: Calibração</p>
-<p id="status" class="status">Solver com correção de paridade - JavaScript consegue resolver sim!</p>
+<p id="status" class="status">Carregando solvers mundiais... min2phase + cubejs</p>
 </header>
 
 <div class="phase" id="phaseCalib">
@@ -66,13 +66,19 @@
 </div>
 
 <div class="faces-grid" id="facesGrid"></div>
-<button id="btnSolve" disabled>🧠 CALCULAR (com correção automática de paridade)</button>
+<div style="display:flex; gap:8px;">
+<button id="btnSolve" disabled style="flex:2;">🧠 CALCULAR COM SOLVER MUNDIAL</button>
+<button id="btnTest" style="flex:1; background:#333; color:#fff;">🧪 Testar seu cubo da foto</button>
+</div>
 <div id="validation" style="margin-top:10px; font-size:12px; background:#111; padding:10px; border-radius:8px;"></div>
-<div id="result" class="result hidden"><h3>✅ Solução (posição padrão: branco cima, vermelho frente):</h3><p id="cubeString"></p><div id="solution"></div><div id="moves"></div><div id="solverInfo" style="margin-top:10px; font-size:11px; background:#000; padding:8px; border-radius:6px; white-space:pre-wrap;"></div></div>
+<div id="result" class="result hidden"><h3>✅ Solução (posição padrão: branco cima, vermelho frente):</h3><p id="cubeString" style="word-break:break-all; font-size:11px;"></p><div id="solution"></div><div id="moves"></div><div id="solverInfo" style="margin-top:10px; font-size:11px; background:#000; padding:8px; border-radius:6px; white-space:pre-wrap;"></div></div>
 </div>
 </div>
 <canvas id="captureCanvas" style="display:none;"></canvas>
+<!-- Solver antigo (backup) + Solver mundial novo -->
 <script src="https://cdn.jsdelivr.net/npm/cubejs@1.3.0/lib/cube.js"></script>
+<!-- min2phase - solver usado nos campeonatos mundiais WCA - muito mais forte -->
+<script src="https://cdn.jsdelivr.net/npm/min2phase@1.0.1/dist/min2phase.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
