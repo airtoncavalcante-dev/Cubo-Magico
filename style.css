@@ -2,9 +2,9 @@
 body { background:#0f0f0f; color:#fff; min-height:100vh; }
 .container { max-width:1300px; margin:0 auto; padding:20px; }
 header { text-align:center; padding:20px; background:#1a1a1a; border-radius:15px; margin-bottom:15px; border:1px solid #333; }
-header h1 { font-size:18px; }
+header h1 { font-size:16px; line-height:1.3; }
 .progress-bar { width:100%; height:14px; background:#222; border-radius:10px; margin:10px 0; overflow:hidden; }
-.progress { height:100%; background:linear-gradient(90deg,#ff0000,#ff8800); width:0%; transition:width 0.4s; }
+.progress { height:100%; background:linear-gradient(90deg,#ff0000,#00ff88); width:0%; transition:width 0.4s; }
 .status { font-size:12px; color:#ffcc00; background:#332200; padding:8px; border-radius:6px; margin-top:8px; line-height:1.4; }
 .phase { background:#1a1a1a; padding:18px; border-radius:15px; border:1px solid #333; margin-bottom:20px; }
 .phase.hidden { display:none; }
@@ -16,7 +16,7 @@ header h1 { font-size:18px; }
 .step-arrow { margin-top:10px; background:#330000; padding:10px; border-radius:8px; font-size:13px; text-align:center; font-weight:bold; border:1px dashed #ff8800; }
 .video-wrapper { position:relative; width:100%; aspect-ratio:4/3; background:#000; border-radius:12px; overflow:hidden; max-width:500px; margin:0 auto; }
 video { width:100%; height:100%; object-fit:cover; background:#000; }
-.grid-3x3 { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:65%; aspect-ratio:1; display:grid; grid-template-columns:1fr 1fr 1fr; gap:4px; border:3px solid #ff0000; pointer-events:none; box-shadow:0 0 15px #ff000055; }
+.grid-3x3 { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:65%; aspect-ratio:1; display:grid; grid-template-columns:1fr 1fr 1fr; gap:4px; border:3px solid #ff0000; pointer-events:none; }
 .grid-3x3.center-only div { opacity:0.15; }
 .grid-3x3.center-only .center-cell { opacity:1; }
 .grid-3x3 div { border:1px dashed rgba(255,0,0,0.6); }
@@ -29,7 +29,7 @@ button { padding:12px 14px; border:none; border-radius:8px; font-weight:bold; cu
 #btnSwitch{ background:#333; color:#fff; border:1px solid #666; }
 .primary{ background:#ff0000; color:#fff; flex:2; font-size:15px; }
 #btnPrev, #btnBackToCalib{ background:#444; color:#fff; }
-#btnSolve{ width:100%; margin-top:14px; background:#ffcc00; color:#000; padding:15px; font-size:15px; }
+#btnSolve{ width:100%; margin-top:14px; background:#ffcc00; color:#000; padding:15px; font-size:14px; }
 #btnSolve:disabled{ opacity:0.3; }
 .calib-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:12px 0; }
 .calib-item { background:#222; padding:9px; border-radius:8px; text-align:center; border:2px solid #333; }
@@ -48,6 +48,6 @@ button { padding:12px 14px; border:none; border-radius:8px; font-weight:bold; cu
 .mini-grid div.center-locked{ border:2px solid #fff; cursor:default; }
 .result{ margin-top:14px; padding:12px; background:#002b14; border:1px solid #00ff88; border-radius:10px; }
 .result.hidden{ display:none; }
-#solution{ font-size:20px; color:#00ff88; font-weight:bold; line-height:1.5; word-break:break-all; }
+#solution{ font-size:19px; color:#00ff88; font-weight:bold; line-height:1.5; word-break:break-all; }
 #moves{ display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
 #moves span{ background:#222; padding:7px 10px; border-radius:5px; border:1px solid #444; font-weight:bold; font-size:13px; }
