@@ -7,88 +7,149 @@
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/airtoncavalcante-dev/Cubo-Magico/main/img/Icone-Cubo-512x512-PNG-V3.png">
 <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/airtoncavalcante-dev/Cubo-Magico/main/img/Icone-Cubo-512x512-PNG-V3.png">
 
-<title>Cubo V19 - Solver 2024 + Detector de Cor Errada</title>
+<title>Cubo V23 - 3D Pintável + Passo a Passo - GitHub + InfinityFree</title>
 <link rel="stylesheet" href="style.css">
+<!-- TwistyPlayer 3D oficial WCA - mesmo do app iPhone -->
+<script src="https://cdn.cubing.net/js/cubing/twisty" type="module"></script>
 </head>
 <body>
 <div class="container">
 <header>
-<h1>🧊 CUBO V19 - SOLVER 2024 + DETECTOR DE COR ERRADA</h1>
+<h1>🧊 CUBO V23 - 3D PINTÁVEL + PASSO A PASSO (GitHub + InfinityFree)</h1>
 <div class="progress-bar"><div id="progress" class="progress"></div></div>
-<p id="progressText">Fase 1: Calibração</p>
-<p id="status" class="status">Carregando solver 2024 da WCA (cubing.js) + Kociemba...</p>
+<p id="progressText">Lado 1/6: VERMELHO frente - Posição Inicial</p>
+<p id="status" class="status">V23 - Sem câmera, cubo 3D pintável com centros fixos, vermelho frente. GitHub chama solver.php no InfinityFree.</p>
 </header>
 
-<div class="phase" id="phaseCalib">
-<h2>🎯 FASE 1 - Calibração dos Centros (luz branca)</h2>
-<p style="font-size:12px;">Dica: Calibre com luz branca natural, não com luz amarela. Comece pelo vermelho (frente).</p>
-<div id="calibInstruction" class="instruction-box" style="border-color:#ffcc00;">
-<div class="face-icon" id="calibIcon">R</div>
-<div><h2 id="calibTitle">1/6 - Centro VERMELHO</h2><p id="calibDesc">Centro VERMELHO bem perto</p></div>
-</div>
-<div class="video-wrapper">
-<video id="video" autoplay playsinline muted></video>
-<div class="grid-3x3 center-only"><div></div><div></div><div></div><div></div><div class="center-cell highlight">CENTRO<br><span id="calibCenterLabel">R</span></div><div></div><div></div><div></div><div></div></div>
-</div>
-<div class="controls">
-<button id="btnStart">📷 Ligar Câmera Traseira</button>
-<button id="btnSwitch">🔄 Trocar Câmera</button>
-<button id="btnCalibCapture" class="primary">🎯 Capturar Centro <span id="calibLabel">R</span></button>
-</div>
-<div class="calib-grid" id="calibGrid"></div>
-<div id="calibResult" class="calib-result">Nenhuma cor calibrada</div>
-<button id="btnGoToCapture" disabled>✅ 6 Centros OK - Ir para leitura ➡️</button>
-</div>
-
-<div class="phase hidden" id="phaseCapture">
-<h2>📱 FASE 2 - Sequencia: Vermelho frente, Branco cima</h2>
+<!-- FASE 1: PINTURA 3D -->
+<div class="phase" id="phasePaint">
+<h2>🎨 FASE 1 - Pinte o cubo 3D (igual app iPhone)</h2>
+<p style="font-size:11px;">Centros já têm cor fixa. Vermelho está de frente para você. Clique nas cores abaixo e depois nos quadradinhos sem cor para pintar. Sequência: Vermelho → Azul → Laranja → Verde → Branco → Amarelo</p>
 
 <div id="instructionBox" class="instruction-box detailed">
 <div class="face-icon" id="faceIcon">R</div>
 <div style="flex:1;">
-<h2 id="stepTitle">Foto 1/6: VERMELHO</h2>
-<p id="stepDesc">Branco cima, Vermelho frente</p>
+<h2 id="stepTitle">Lado 1/6: VERMELHO na FRENTE - Posição Inicial Padrão</h2>
+<p id="stepDesc">Branco cima, Vermelho frente, Azul direita, Verde esquerda, Laranja atrás, Amarelo baixo</p>
 <div id="stepDetails" class="step-details"></div>
-<div id="stepWarning" class="step-warning"></div>
 <div id="stepArrow" class="step-arrow"></div>
 </div>
 </div>
 
-<div class="video-wrapper">
-<video id="video2" autoplay playsinline muted></video>
-<div class="grid-3x3"><div></div><div></div><div></div><div></div><div class="center-cell">FRENTE<br><span id="centerLabel">R</span></div><div></div><div></div><div></div><div></div></div>
+<div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; align-items:flex-start;">
+<!-- CUBO 3D -->
+<div style="flex:1; min-width:300px; max-width:450px;">
+<div style="width:100%; height:380px; background:#000; border-radius:12px; border:3px solid #ff0000; position:relative; overflow:hidden;">
+<twisty-player id="twistyCube" style="width:100%; height:100%; display:block;" puzzle="3x3x3" visualization="3D" control-panel="none" background="none" experimental-setup-anchor="start"></twisty-player>
+<div style="position:absolute; bottom:8px; left:50%; transform:translateX(-50%); background:#000a; padding:4px 8px; border-radius:6px; font-size:10px;">
+<span id="currentFaceLabel3D">FRENTE: VERMELHO (R)</span>
+</div>
 </div>
 
-<div class="controls">
-<button id="btnCapture" class="primary">✅ Capturar <span id="currentFaceLabel">VERMELHO</span></button>
-<button id="btnPrev">⬅️ Voltar</button>
-<button id="btnBackToCalib" style="background:#444; color:#fff;">🔙 Recalibrar</button>
+<!-- Face 2D atual para pintar -->
+<div style="margin-top:10px; background:#111; padding:10px; border-radius:10px; text-align:center;">
+<h3 style="font-size:12px;">Face atual para pintar: <span id="currentFaceLabel">VERMELHO (R)</span></h3>
+<div class="face-2d" id="face2D" style="display:grid; grid-template-columns:repeat(3,1fr); gap:4px; width:150px; height:150px; margin:10px auto; background:#000; padding:6px; border-radius:8px; border:2px solid #ff0000;"></div>
+<p style="font-size:10px; opacity:0.7;">Centro travado em <span id="centerLabel">R</span> - clique nos 8 quadradinhos ao redor para pintar</p>
+<p id="faceProgress" style="font-size:11px; margin-top:6px; background:#222; padding:5px; border-radius:6px;">Pintados: 1/9 (centro)</p>
+</div>
 </div>
 
-<div class="faces-grid" id="facesGrid"></div>
-<div style="display:flex; gap:6px; flex-wrap:wrap;">
-<button id="btnSolve" disabled style="flex:2;">🧠 CALCULAR COM SOLVER 2024</button>
-<button id="btnFixColors" style="flex:1; background:#ff8800; color:#000;">🔧 Corrigir cores trocadas</button>
+<!-- Paleta de cores + Controles -->
+<div style="flex:1; min-width:250px; max-width:350px;">
+<div style="background:#000; padding:12px; border-radius:10px; border:1px solid #333;">
+<h3 style="font-size:12px; margin-bottom:8px;">🎨 Paleta - Selecione a cor e clique nos quadradinhos</h3>
+<div id="colorPalette" style="display:grid; grid-template-columns:repeat(2,1fr); gap:6px;">
+<button class="color-btn active" data-color="U" style="background:#ffffff; color:#000; border:3px solid #ffcc00;"><span>⬜</span> BRANCO (U)</button>
+<button class="color-btn" data-color="R" style="background:#ff0000; color:#fff;"><span>🟥</span> VERMELHO (R)</button>
+<button class="color-btn" data-color="F" style="background:#00cc00; color:#fff;"><span>🟩</span> VERDE (F)</button>
+<button class="color-btn" data-color="D" style="background:#ffff00; color:#000;"><span>🟨</span> AMARELO (D)</button>
+<button class="color-btn" data-color="L" style="background:#ff8800; color:#fff;"><span>🟧</span> LARANJA (L)</button>
+<button class="color-btn" data-color="B" style="background:#0066ff; color:#fff;"><span>🟦</span> AZUL (B)</button>
 </div>
-<div id="validation" style="margin-top:10px; font-size:12px; background:#111; padding:10px; border-radius:8px;"></div>
-<div id="result" class="result hidden"><h3>✅ Solução (posição padrão: branco cima, vermelho frente):</h3><p id="cubeString" style="word-break:break-all; font-size:11px;"></p><div id="solution"></div><div id="moves"></div><div id="solverInfo" style="margin-top:10px; font-size:11px; background:#000; padding:8px; border-radius:6px; white-space:pre-wrap; max-height:400px; overflow:auto;"></div></div>
+<div id="selectedColorDisplay" style="margin-top:10px; padding:8px; border-radius:8px; text-align:center; background:#ffffff; color:#000; border:2px solid #ffcc00;">
+Cor selecionada: <b>BRANCO (U)</b> - Clique nos quadradinhos da face para pintar
+</div>
+
+<div style="margin-top:12px; display:flex; gap:6px;">
+<button id="btnPrevFace" disabled style="flex:1; background:#444; color:#fff;">⬅️ Lado Anterior</button>
+<button id="btnNextFace" style="flex:2; background:#00ff88; color:#000;">➡️ Próximo Lado: AZUL</button>
+</div>
+<button id="btnFinishPaint" class="hidden" style="width:100%; margin-top:8px; background:#ffcc00; color:#000; padding:12px;">✅ Finalizar Pintura - Calcular Solução</button>
+
+<div style="margin-top:10px; background:#111; padding:8px; border-radius:6px; font-size:10px;">
+<h4 style="font-size:11px; margin-bottom:4px;">Sequência (igual você pediu):</h4>
+<div id="sequenceList" style="line-height:1.6;">
+1. <b style="color:#ff0000;">VERMELHO frente</b> (posição inicial padrão)<br>
+2. AZUL frente (gira 90° horário)<br>
+3. LARANJA frente (gira 90° horário)<br>
+4. VERDE frente (gira 90° horário)<br>
+5. BRANCO frente (gira 1x para trás)<br>
+6. AMARELO frente (gira 2x para frente - último)<br>
 </div>
 </div>
+</div>
+</div>
+</div>
+
+<div id="validation" style="margin-top:10px; font-size:11px; background:#111; padding:10px; border-radius:8px;"></div>
+</div>
+
+<!-- FASE 2: SOLUÇÃO 3D PASSO A PASSO -->
+<div class="phase hidden" id="phaseSolve">
+<h2>🎬 FASE 2 - Solução 3D Passo a Passo (igual app iPhone)</h2>
+<p style="font-size:11px;">Cada movimento em 3D, um por vez. Clique em Próximo Movimento para aprender. Começa sempre com face vermelha.</p>
+
+<div style="background:#000; padding:10px; border-radius:12px; border:2px solid #00ff88;">
+<div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; align-items:flex-start;">
+<div style="flex:1; min-width:300px; max-width:500px;">
+<div style="width:100%; height:420px; background:#111; border-radius:12px; position:relative; overflow:hidden; border:2px solid #00ff88;">
+<twisty-player id="twistySolver" style="width:100%; height:100%; display:block;" puzzle="3x3x3" visualization="3D" control-panel="bottom" background="none" alg=""></twisty-player>
+<div style="position:absolute; top:8px; left:50%; transform:translateX(-50%); background:#000e; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:bold; border:1px solid #00ff88;">
+<span id="currentMoveLabel">Movimento 0/0 - Pronto para começar</span>
+</div>
+</div>
+</div>
+
+<div style="flex:1; min-width:280px;">
+<div style="background:#111; padding:12px; border-radius:10px;">
+<h3 style="font-size:13px; margin-bottom:8px;">📝 Solução:</h3>
+<p id="cubeString" style="word-break:break-all; font-size:10px; background:#000; padding:6px; border-radius:6px; margin-bottom:8px;"></p>
+<div id="solution" style="font-size:14px; color:#00ff88; font-weight:bold; line-height:1.4; word-break:break-all; background:#000; padding:8px; border-radius:6px; margin-bottom:8px;"></div>
+<div id="moves" style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:10px; max-height:120px; overflow:auto; background:#000; padding:6px; border-radius:6px;"></div>
+
+<div style="background:#000; padding:10px; border-radius:8px; border:1px solid #333;">
+<div style="display:flex; gap:6px; margin-bottom:8px;">
+<button id="btnStartSolve" style="flex:1; background:#00ff88; color:#000; padding:12px;">▶️ Iniciar - 1º Movimento</button>
+<button id="btnNextMove" disabled style="flex:1; background:#ffcc00; color:#000; padding:12px;">➡️ Próximo Movimento</button>
+</div>
+<div style="display:flex; gap:6px;">
+<button id="btnPrevMove" disabled style="flex:1; background:#444; color:#fff; padding:10px;">⬅️ Movimento Anterior</button>
+<button id="btnResetSolve" style="flex:1; background:#333; color:#fff; padding:10px;">🔄 Reiniciar</button>
+</div>
+<div style="margin-top:8px; background:#222; padding:8px; border-radius:6px; font-size:11px;">
+<p><b>Movimento atual:</b> <span id="currentMoveDetail">Nenhum - clique em Iniciar</span></p>
+<p><b>Progresso:</b> <span id="solveProgress">0/0 movimentos</span></p>
+<div style="width:100%; height:8px; background:#333; border-radius:4px; margin-top:6px; overflow:hidden;">
+<div id="solveProgressBar" style="height:100%; background:#00ff88; width:0%; transition:width 0.3s;"></div>
+</div>
+</div>
+</div>
+
+<div style="margin-top:10px; background:#332200; padding:8px; border-radius:6px; font-size:10px; border-left:4px solid #ffcc00;">
+<b>💡 Como aprender:</b> Cada clique em Próximo Movimento faz 1 movimento em 3D e para. Assim você vai aprendendo movimento por movimento até resolver, igual no app do iPhone que você usou.
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="solverInfo" style="margin-top:10px; font-size:11px; background:#000; padding:8px; border-radius:6px; white-space:pre-wrap; max-height:300px; overflow:auto;"></div>
+</div>
+</div>
+
 <canvas id="captureCanvas" style="display:none;"></canvas>
-<!-- Solvers antigos + novo solver 2024 da WCA -->
 <script src="https://cdn.jsdelivr.net/npm/cubejs@1.3.0/lib/cube.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/min2phase@1.0.1/dist/min2phase.js"></script>
-<script type="module">
-  // Solver novo 2024 - cubing.js oficial da WCA (funciona mesmo com cubo muito embaralhado)
-  try {
-    const { randomScrambleForEvent, solve } = await import('https://cdn.jsdelivr.net/npm/cubing@0.54.0/+esm');
-    window.cubingSolve = solve;
-    console.log('✅ cubing.js 2024 carregado');
-    document.getElementById('status').textContent += ' + cubing.js 2024 OK';
-  } catch(e) {
-    console.warn('cubing.js 2024 não carregou', e);
-  }
-</script>
 <script src="script.js"></script>
 </body>
 </html>
